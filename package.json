@@ -6,10 +6,11 @@
   "scripts": {
     "dev": "tsx server.ts",
     "build": "next build",
-    "start": "tsx server.ts",
+    "start": "NODE_ENV=production tsx server.ts",
     "type-check": "tsc --noEmit"
   },
   "dependencies": {
+    "tsx": "^4.19.0",
     "@anthropic-ai/sdk": "^0.30.0",
     "@google/generative-ai": "^0.21.0",
     "@libsql/client": "^0.14.0",
@@ -33,7 +34,6 @@
     "typescript": "^5.4.5"
   },
   "devDependencies": {
-    "tsx": "^4.19.0",
     "ts-node": "^10.9.2"
   }
 }

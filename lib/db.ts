@@ -10,18 +10,30 @@
 import { createClient, Client, ResultSet } from '@libsql/client';
 import path from 'path';
 
+// const DB_URL = (() => {
+//   const raw = process.env.DATABASE_URL ?? 'file:./dev.db';
+//   if (raw.startsWith('file:')) return raw;
+//   // Handle plain path like "./dev.db"
+//   return `file:${path.resolve(process.cwd(), raw)}`;
+// })();
 const DB_URL = (() => {
   const raw = process.env.DATABASE_URL ?? 'file:./dev.db';
-  if (raw.startsWith('file:')) return raw;
-  // Handle plain path like "./dev.db"
+  if (raw.startsWith('file:') || raw.startsWith('libsql://') || raw.startsWith('https://')) return raw;
   return `file:${path.resolve(process.cwd(), raw)}`;
 })();
 
 let _client: Client | null = null;
 
+// export function getDb(): Client {
+//   if (!_client) {
+//     _client = createClient({ url: DB_URL });
+//   }
+//   return _client;
+// }
+
 export function getDb(): Client {
   if (!_client) {
-    _client = createClient({ url: DB_URL });
+    _client = createClient({ url: DB_URL, authToken: process.env.DATABASE_AUTH_TOKEN });
   }
   return _client;
 }
